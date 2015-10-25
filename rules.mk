@@ -36,7 +36,7 @@ endif
 # if CFLAGS wasn't set by package builder set it to -O2
 # warnings on, and path to #include <config.h>
 ifeq ($(DEBUG),enabled)
-	override CFLAGS = -Wall -I$(TOPDIR) -g -Werror 
+	override CFLAGS = -Wall -I$(TOPDIR) -g 
 else
 	CFLAGS += -O2 -Wall -I$(TOPDIR) 
 endif
