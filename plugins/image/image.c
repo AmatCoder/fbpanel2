@@ -68,8 +68,8 @@ image_constructor(plugin_instance *p)
               ratio * ((float) gdk_pixbuf_get_height(gp)),
               GDK_INTERP_HYPER);
         gdk_pixbuf_render_pixmap_and_mask(gps, &img->pix, &img->mask, 127);
-        gdk_pixbuf_unref(gp);
-        gdk_pixbuf_unref(gps);
+        g_object_unref(gp);
+        g_object_unref(gps);
         wid = gtk_image_new_from_pixmap(img->pix, img->mask);
 
     }
@@ -91,7 +91,7 @@ static plugin_class class = {
     .type        = "image",
     .name        = "Show Image",
     .version     = "1.0",
-    .description = "Dispaly Image and Tooltip",
+    .description = "Display Image and Tooltip",
     .priv_size   = sizeof(image_priv),
 
     .constructor = image_constructor,
