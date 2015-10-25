@@ -23,7 +23,7 @@ add_var glib_libs "glib libs" '`RFS=$rfs scripts/rfs-pkg-config --libs glib-2.0`
 add_var gtk_libs "gtk libs" '`RFS=$rfs scripts/rfs-pkg-config --libs gtk+-2.0`'
 
 add_var cflagsx "C flags" '-I$topdir/panel $glib_cflags $gtk_cflags -fPIC'
-add_var ldflagsx "linker flags" '$glib_libs $gtk_libs'
+add_var ldflagsx "linker flags" '$glib_libs $gtk_libs -lX11 -lm'
 
 add_var gmodule_libs "gmodule libs" '`scripts/rfs-pkg-config --libs gmodule-2.0`'
 
