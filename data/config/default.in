@@ -112,9 +112,9 @@ Global {
     allign = center
     margin = 0
     widthtype = percent
-    width = 86
-    height = 24
-    transparent = true
+    width = 100
+    height = 30
+    transparent = false
     tintcolor = #ffffff
     alpha = 28
     setdocktype = true
@@ -122,20 +122,17 @@ Global {
     autohide = false
     heightWhenHidden = 2
     roundcorners = true
-    roundcornersradius = 7
+    roundcornersradius = 2
     layer = none
     MaxElemHeight = 32
 }
 
-
-
 Plugin {
     type = space
     config {
-        size = 2
+        size = 15
     }
 }
-
 
 Plugin {
     type = menu
@@ -182,15 +179,12 @@ Plugin {
     }
 }
 
-
-
 Plugin {
     type = space
     config {
         size = 15
     }
 }
-
 
 Plugin {
     type = launchbar
@@ -220,7 +214,6 @@ Plugin {
     }
 }
 
-
 Plugin {
     type = wincmd
     config {
@@ -229,15 +222,12 @@ Plugin {
     }
 }
 
-
 Plugin {
     type = space
     config {
         size = 15
     }
 }
-
-
 
 Plugin {
     type = taskbar
@@ -251,7 +241,6 @@ Plugin {
         MaxTaskWidth = 150
     }
 }
-
 
 Plugin {
     type = space
@@ -305,7 +294,6 @@ Plugin {
     }
 }
 
-
 Plugin {
     type = space
     config {
@@ -333,15 +321,15 @@ Plugin {
 }
 
 # Digital Clock
-Plugin {
-    type = dclock
-    config {
-        ShowSeconds = false
-        HoursView = 24
-        TooltipFmt = %A %x
+#Plugin {
+#    type = dclock
+#    config {
+#        ShowSeconds = false
+#        HoursView = 24
+#        TooltipFmt = %A %x
         #Action = xmessage Please define some command &
-    }
-}
+#    }
+#}
 
 # Text Clock
 # ClockFmt: (string) Clock format string.  May contain strftime conversion
@@ -351,18 +339,18 @@ Plugin {
 # ShowCalendar: (boolean) Show a GTK calendar widget when the clock is
 #               clicked.  Only valid if Action is unset.
 # ShowTooltip: (boolean) Show tooltip for clock.
-#Plugin {
-#    type = tclock
-#    config {
-#        ClockFmt = <b>%I:%M</b>
-#        # 2 line view, time in bold above and date below
-#        # ClockFmt = <span font="Sans 8"><b>%-l:%M</b> %P&#xA;%a %B %-e</span>
-#        TooltipFmt = %A %x
-#        #Action = xmessage Please define some command &
-#        ShowCalendar = false
-#        ShowTooltip = true
-#    }
-#}
+Plugin {
+    type = tclock
+    config {
+        ClockFmt = <b>%I:%M</b>
+        # 2 line view, time in bold above and date below
+        # ClockFmt = <span font="Sans 8"><b>%-l:%M</b> %P&#xA;%a %B %-e</span>
+        TooltipFmt = %A %x
+        #Action = xmessage Please define some command &
+        ShowCalendar = false
+        ShowTooltip = true
+    }
+}
 
 # 'icons' plugin lets you customize window icons.
 # these changes apply to entire desktop
