@@ -348,8 +348,8 @@ mk_dialog(xconf *oxc)
     
     ENTER;
     DBG("creating dialog\n");
-    //name = g_strdup_printf("fbpanel settings: <%s> profile", cprofile);
-    name = g_strdup_printf("fbpanel settings: <%s> profile",
+    //name = g_strdup_printf("fbpanel2 settings: <%s> profile", cprofile);
+    name = g_strdup_printf("fbpanel2 settings: <%s> profile",
         panel_get_profile());
     dialog = gtk_dialog_new_with_buttons (name,
         NULL,

@@ -72,7 +72,7 @@ class_put(char *name)
     if (tmp->count || !tmp->dynamic)
         RET();
 
-    s = g_strdup_printf(LIBDIR "/fbpanel/%s.so", name);
+    s = g_strdup_printf(LIBDIR "/fbpanel2/%s.so", name);
     DBG("loading module %s\n", s);
     m = g_module_open(s, G_MODULE_BIND_LAZY);
     g_free(s);
@@ -98,7 +98,7 @@ class_get(char *name)
         tmp->count++;
         RET(tmp);
     }
-    s = g_strdup_printf(LIBDIR "/fbpanel/%s.so", name);
+    s = g_strdup_printf(LIBDIR "/fbpanel2/%s.so", name);
     DBG("loading module %s\n", s);
     m = g_module_open(s, G_MODULE_BIND_LAZY);
     g_free(s);
@@ -217,8 +217,8 @@ default_plugin_edit_config(plugin_instance *pl)
     /* XXX: harcoded default profile name */
     msg = g_strdup_printf("Graphical '%s' plugin configuration\n is not "
           "implemented yet.\n"
-          "Please edit manually\n\t~/.config/fbpanel/default\n\n"
-          "You can use as example files in \n\t%s/share/fbpanel/\n"
+          "Please edit manually\n\t~/.config/fbpanel2/default\n\n"
+          "You can use as example files in \n\t%s/share/fbpanel2/\n"
           "or visit\n"
           "\thttp://fbpanel.sourceforge.net/docs.html", pl->class->name,
           PREFIX);

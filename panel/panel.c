@@ -48,7 +48,7 @@ panel_set_wm_strut(panel *p)
     if (!GTK_WIDGET_MAPPED(p->topgwin))
         return;
     /* most wm's tend to ignore struts of unmapped windows, and that's how
-     * fbpanel hides itself. so no reason to set it. */
+     * fbpanel2 hides itself. so no reason to set it. */
     if (p->autohide)
         return;
     switch (p->edge) {
@@ -554,7 +554,7 @@ panel_start_gui(panel *p)
         (GCallback) panel_scroll_event, p);
 
     gtk_window_set_resizable(GTK_WINDOW(p->topgwin), FALSE);
-    gtk_window_set_wmclass(GTK_WINDOW(p->topgwin), "panel", "fbpanel");
+    gtk_window_set_wmclass(GTK_WINDOW(p->topgwin), "panel", "fbpanel2");
     gtk_window_set_title(GTK_WINDOW(p->topgwin), "panel");
     gtk_window_set_position(GTK_WINDOW(p->topgwin), GTK_WIN_POS_NONE);
     gtk_window_set_decorated(GTK_WINDOW(p->topgwin), FALSE);
@@ -723,7 +723,7 @@ panel_parse_plugin(xconf *xc)
     ENTER;
     xconf_get_str(xconf_find(xc, "type", 0), &type);
     if (!type || !(plug = plugin_load(type))) {
-        ERR( "fbpanel: can't load %s plugin\n", type);
+        ERR( "fbpanel2: can't load %s plugin\n", type);
         return;
     }
     plug->panel = p;
@@ -733,7 +733,7 @@ panel_parse_plugin(xconf *xc)
     plug->xc = xconf_find(xc, "config", 0);
 
     if (!plugin_start(plug)) {
-        ERR( "fbpanel: can't start plugin %s\n", type);
+        ERR( "fbpanel2: can't start plugin %s\n", type);
         exit(1);
     }
     p->plugins = g_list_append(p->plugins, plug);
@@ -792,7 +792,7 @@ void
 usage()
 {
     ENTER;
-    printf("fbpanel %s - lightweight GTK2+ panel for UNIX desktops\n", version);
+    printf("fbpanel2 %s - lightweight GTK2+ panel for UNIX desktops\n", version);
     printf("Command line options:\n");
     printf(" --help      -- print this help and exit\n");
     printf(" --version   -- print version and exit\n");
@@ -814,7 +814,7 @@ handle_error(Display * d, XErrorEvent * ev)
 
     ENTER;
     XGetErrorText(GDK_DISPLAY(), ev->error_code, buf, 256);
-    DBG("fbpanel : X error: %s\n", buf);
+    DBG("fbpanel2 : X error: %s\n", buf);
 
     RET();
 }
@@ -846,12 +846,12 @@ do_argv(int argc, char *argv[])
             usage();
             exit(0);
         } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
-            printf("fbpanel %s\n", version);
+            printf("fbpanel2 %s\n", version);
             exit(0);
         } else if (!strcmp(argv[i], "--log")) {
             i++;
             if (i == argc) {
-                ERR( "fbpanel: missing log level\n");
+                ERR( "fbpanel2: missing log level\n");
                 usage();
                 exit(1);
             } else {
@@ -862,14 +862,14 @@ do_argv(int argc, char *argv[])
         } else if (!strcmp(argv[i], "--profile") || !strcmp(argv[i], "-p")) {
             i++;
             if (i == argc) {
-                ERR( "fbpanel: missing profile name\n");
+                ERR( "fbpanel2: missing profile name\n");
                 usage();
                 exit(1);
             } else {
                 profile = g_strdup(argv[i]);
             }
         } else {
-            printf("fbpanel: unknown option - %s\n", argv[i]);
+            printf("fbpanel2: unknown option - %s\n", argv[i]);
             usage();
             exit(1);
         }
@@ -896,7 +896,7 @@ ensure_profile()
     {
         return;
     }
-    cmd = g_strdup_printf("%s %s", LIBEXECDIR "/fbpanel/make_profile",
+    cmd = g_strdup_printf("%s %s", LIBEXECDIR "/fbpanel2/make_profile",
         profile);
     g_spawn_command_line_sync(cmd, NULL, NULL, NULL, NULL);
     g_free(cmd);
@@ -923,7 +923,7 @@ main(int argc, char *argv[])
     fb_init();
     do_argv(argc, argv);
     profile_file = g_build_filename(g_get_user_config_dir(),
-        "fbpanel", profile, NULL);
+        "fbpanel2", profile, NULL);
     ensure_profile();
     gtk_icon_theme_append_search_path(gtk_icon_theme_get_default(), IMGPREFIX);
     signal(SIGUSR1, sig_usr1);
