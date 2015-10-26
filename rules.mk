@@ -215,5 +215,30 @@ tar :
 	scripts/mk_tar
 
 
+######################################################
+## Uninstalling
+
+uninstall :
+ifneq (,$(BINDIR))
+	rm -f -v $(BINDIR)/fbpanel2
+endif
+
+ifneq (,$(LIBEXECDIR))
+	rm -f -R -v $(LIBEXECDIR)/fbpanel2
+endif
+
+ifneq (,$(LIBDIR))
+	rm -f -R -v $(LIBDIR)/fbpanel2
+endif
+
+ifneq (,$(DATADIR))
+	rm -f -R -v $(DATADIR)/fbpanel2
+endif
+
+ifneq (,$(LOCALEDIR))
+	rm -f -v $(LOCALEDIR)/fr/LC_MESSAGES/fbpanel2.mo
+	rm -f -v $(LOCALEDIR)/ru/LC_MESSAGES/fbpanel2.mo
+endif
+
 install=@$(TOPDIR)/scripts/install.sh
 install_locale=@$(TOPDIR)/scripts/install_locale.sh
