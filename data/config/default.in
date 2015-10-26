@@ -1,5 +1,5 @@
 ########################################
-## fbpanel configuration file         ##
+## fbpanel2 configuration file         ##
 ########################################
 
 
@@ -101,7 +101,7 @@
 # Plugin {
 #     type = wincmd
 #     config {
-#         image = ~/.fbpanel/images/Desktop2.png
+#         image = ~/.fbpanel2/images/Desktop2.png
 #         tooltip = Left click to iconify all windows. Middle click to shade them.
 #     }
 # }
@@ -173,7 +173,7 @@ Plugin {
             item {
                 name = logout
                 icon = gnome-session-logout
-                action = %%libexecdir%%/fbpanel/xlogout
+                action = %%libexecdir%%/fbpanel2/xlogout
             }
         }
     }
@@ -357,7 +357,7 @@ Plugin {
 Plugin {
     type = icons
     config {
-        DefaultIcon = %%datadir%%/fbpanel/images/default.xpm
+        DefaultIcon = %%datadir%%/fbpanel2/images/default.xpm
         application {
             icon = gnome-terminal
             ClassName = XTerm

@@ -28,6 +28,6 @@ logo.png
 
 
 install :
-	$(install) 755 $(DATADIR)/fbpanel/images 644 $(IMAGES)
+	$(install) 755 $(DATADIR)/fbpanel2/images 644 $(IMAGES)
 
 include %%topdir%%/rules.mk

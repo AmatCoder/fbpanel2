@@ -2,11 +2,11 @@
 
 umask 0077
 # new profile directory
-npdir=~/.config/fbpanel
+npdir=~/.config/fbpanel2
 # old profile directory
-opdir=~/.fbpanel
+opdir=~/.fbpanel2
 # system profile directory
-spdir=%%datadir%%/fbpanel
+spdir=%%datadir%%/fbpanel2
 # if profile name was not set, use  'default'
 profile=${1:-default}
 
