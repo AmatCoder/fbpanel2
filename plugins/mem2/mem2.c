@@ -43,7 +43,7 @@ enum {
 
 #undef MT_ADD
 #define MT_ADD(x) { #x, 0, 0 },
-mem_type_t mt[] =
+mem_type_t mt2[] =
 {
 #include "../mem/mt.h"
 };
@@ -79,31 +79,31 @@ mem_usage(mem2_priv *c)
         RET(FALSE);;
     for (i = 0; i < MT_NUM; i++)
     {
-        mt[i].valid = 0;
-        mt[i].val = 0;
+        mt2[i].valid = 0;
+        mt2[i].val = 0;
     }
 
     while ((fgets(buf, sizeof(buf), fp)) != NULL)
     {
         for (i = 0; i < MT_NUM; i++)
         {
-            if (!mt[i].valid && mt_match(buf, mt + i))
+            if (!mt2[i].valid && mt_match(buf, mt2 + i))
                 break;
         }
     }
     fclose(fp);
 
-    total[0] = (float)(mt[MT_MemTotal].val -(mt[MT_MemFree].val +
-        mt[MT_Buffers].val + mt[MT_Cached].val + mt[MT_Slab].val));
-    total[1] = (float)(mt[MT_SwapTotal].val - mt[MT_SwapFree].val);
-    total_r[0] = (float)total[0] / mt[MT_MemTotal].val;
-    total_r[1] = (float)total[1] / mt[MT_SwapTotal].val;
+    total[0] = (float)(mt2[MT_MemTotal].val -(mt2[MT_MemFree].val +
+        mt2[MT_Buffers].val + mt2[MT_Cached].val + mt2[MT_Slab].val));
+    total[1] = (float)(mt2[MT_SwapTotal].val - mt2[MT_SwapFree].val);
+    total_r[0] = (float)total[0] / mt2[MT_MemTotal].val;
+    total_r[1] = (float)total[1] / mt2[MT_SwapTotal].val;
 
     g_snprintf(buf, sizeof(buf),
         "<b>Mem:</b> %d%%, %lu MB of %lu MB\n"
         "<b>Swap:</b> %d%%, %lu MB of %lu MB",
-        (int)(total_r[0] * 100), total[0] >> 10, mt[MT_MemTotal].val >> 10,
-        (int)(total_r[1] * 100), total[1] >> 10, mt[MT_SwapTotal].val >> 10);
+        (int)(total_r[0] * 100), total[0] >> 10, mt2[MT_MemTotal].val >> 10,
+        (int)(total_r[1] * 100), total[1] >> 10, mt2[MT_SwapTotal].val >> 10);
 
     k->add_tick(&c->chart, total_r);
     gtk_widget_set_tooltip_markup(((plugin_instance *)c)->pwid, buf);
