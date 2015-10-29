@@ -130,7 +130,7 @@ Global {
 Plugin {
     type = space
     config {
-        size = 15
+        size = 5
     }
 }
 
@@ -301,9 +301,9 @@ Plugin {
     }
 }
 
-#plugin {
-#    type = volume
-#}
+plugin {
+    type = volume
+}
 
 #plugin {
 #    type = battery

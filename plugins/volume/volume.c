@@ -247,17 +247,17 @@ crossed(GtkWidget *widget, GdkEventCrossing *event, volume_priv *c)
 static int
 volume_constructor(plugin_instance *p)
 {
-    volume_priv *c;
-    
+    volume_priv *c = (volume_priv *) p;
+
+    if ((c->fd = open ("/dev/mixer", O_RDWR, 0)) < 0) {
+        ERR("volume: can't open /dev/mixer\n");
+        RET(1);
+    }
     if (!(k = class_get("meter")))
         RET(0);
     if (!PLUGIN_CLASS(k)->constructor(p))
         RET(0);
-    c = (volume_priv *) p;
-    if ((c->fd = open ("/dev/mixer", O_RDWR, 0)) < 0) {
-        ERR("volume: can't open /dev/mixer\n");
-        RET(0);
-    }
+
     k->set_icons(&c->meter, names);
     c->update_id = g_timeout_add(1000, (GSourceFunc) volume_update_gui, c);
     c->vol = 200;
