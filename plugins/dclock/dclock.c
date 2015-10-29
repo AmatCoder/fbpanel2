@@ -281,7 +281,10 @@ dclock_constructor(plugin_instance *p)
     dc = (dclock_priv *) p;
     dc->glyphs = gdk_pixbuf_new_from_file(IMGPREFIX "/dclock_glyphs.png", NULL);
     if (!dc->glyphs)
-        RET(0);
+    {
+        ERR("dclock: can't open glyphs\n");
+        RET(1);
+    }
 
     dc->cfmt = NULL;
     dc->tfmt = TOOLTIP_FMT;
