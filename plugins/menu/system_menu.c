@@ -37,14 +37,14 @@ static void
 do_app_file(GHashTable *ht, const gchar *file)
 {
     GKeyFile *f;
-    gchar *name, *icon, *action,*dot;
+    gchar *name, *icon, *action, *dot, *term;
     gchar **cats, **tmp;
     xconf *ixc, *vxc, *mxc;
     
     ENTER;
     DBG("desktop: %s\n", file);
     /* get values */
-    name = icon = action = dot = NULL;
+    name = icon = action = dot = term = NULL;
     cats = tmp = NULL;
     f = g_key_file_new();
     if (!g_key_file_load_from_file(f, file, 0, NULL))
@@ -79,6 +79,16 @@ do_app_file(GHashTable *ht, const gchar *file)
     icon = g_key_file_get_string(f, desktop_ent, "Icon", NULL);
     if (!icon)
         DBG("\tNo Icon\n");
+
+    term = g_key_file_get_string(f, desktop_ent, "Terminal", NULL);
+    if (!term)
+        DBG("\tNo Terminal\n");
+    else if (g_ascii_strncasecmp (term, "true", 4) == 0)
+    {
+        gchar *action2 = g_strconcat ("$", action, NULL);
+        g_free (action);
+        action = action2;
+    }
 
     /* ignore program arguments */
     while ((dot = strchr(action, '%'))) {
@@ -121,6 +131,7 @@ out:
     g_free(icon);
     g_free(name);
     g_free(action);
+    g_free(term);
     g_strfreev(cats);
     g_key_file_free(f);
 }

@@ -140,6 +140,7 @@ Plugin {
         IconSize = 22
         #icon = start-here
         icon = logo
+        term = x-terminal
         systemmenu {
         }
         separator {

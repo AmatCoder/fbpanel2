@@ -16,6 +16,7 @@
 #include "dbg.h"
 
 #define MENU_DEFAULT_ICON_SIZE 22
+#define MENU_DEFAULT_TERM    "x-terminal"
 
 typedef struct {
     plugin_instance plugin;
@@ -26,6 +27,7 @@ typedef struct {
     gboolean has_system_menu;
     time_t btime;
     gint icon_size;
+    char *term;
 } menu_priv;
 
 xconf *xconf_new_from_systemmenu();
@@ -128,6 +130,14 @@ menu_create_item(xconf *xc, GtkWidget *menu, menu_priv *m)
     if (action)
     {
         action = expand_tilda(action);
+
+        if (action[0] == '$')
+        {
+            action[0] = ' '; 
+            gchar *action2 = g_strconcat (m->term, " -e", action, NULL);
+            g_free (action);
+            action = action2;
+        }
 
         g_signal_connect_swapped(G_OBJECT(mi), "activate",
                 (GCallback)run_app, action);
@@ -352,8 +362,11 @@ menu_constructor(plugin_instance *p)
     ENTER;
     m = (menu_priv *) p;
     m->icon_size = MENU_DEFAULT_ICON_SIZE;
+    m->term = MENU_DEFAULT_TERM;
     XCG(p->xc, "iconsize", &m->icon_size, int);
     DBG("icon_size=%d\n", m->icon_size);
+    XCG(p->xc, "term", &m->term, str);
+    DBG("default terminal=%s\n", m->term);
     make_button(p, p->xc);
     g_signal_connect_swapped(G_OBJECT(icon_theme),
         "changed", (GCallback) schedule_rebuild_menu, p);
