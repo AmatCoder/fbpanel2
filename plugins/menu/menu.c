@@ -24,7 +24,7 @@ typedef struct {
     int iconsize, paneliconsize;
     xconf *xc;
     guint tout, rtout;
-    gboolean has_system_menu;
+    gboolean has_system_menu, isbutton;
     time_t btime;
     gint icon_size;
     char *term;
@@ -200,7 +200,11 @@ menu_create_menu(xconf *xc, gboolean ret_menu, menu_priv *m)
 static gboolean
 menu_unmap(GtkWidget *menu, plugin_instance *p)
 {
+    menu_priv *m = (menu_priv *) p;
+
     ENTER;
+    if (m->isbutton)
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(m->bg), FALSE); 
     if (p->panel->autohide)
         ah_start(p->panel);
     RET(FALSE);
@@ -272,7 +276,8 @@ my_button_pressed(GtkWidget *widget, GdkEventButton *event, plugin_instance *p)
         gtk_menu_popup(GTK_MENU(m->menu),
             NULL, NULL, (GtkMenuPositionFunc)menu_pos, widget,
             event->button, event->time);
-       
+        if (m->isbutton)
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(widget), TRUE); 
     }
     RET(TRUE);
 }
@@ -283,7 +288,7 @@ make_button(plugin_instance *p, xconf *xc)
 {
     int w, h;
     menu_priv *m;
-    gchar *fname, *iname;
+    gchar *fname, *iname, *label;
     
     ENTER;
     m = (menu_priv *) p;
@@ -293,26 +298,42 @@ make_button(plugin_instance *p, xconf *xc)
     {
         w = -1;
         h = p->panel->max_elem_height;
+        m->isbutton = TRUE;
     }
     else
     {
         w = p->panel->max_elem_height;
         h = -1;
+        m->isbutton = FALSE;
     }
-    fname = iname = NULL;
+    fname = iname = label = NULL;
     XCG(xc, "image", &fname, str);
     fname = expand_tilda(fname);
     XCG(xc, "icon", &iname, str);
+    XCG(xc, "label", &label, str);
     if (fname || iname)
     {
-        m->bg = fb_button_new(iname, fname, w, h, 0x702020, NULL);
+        if ( (label == NULL) || !(m->isbutton) )
+        {
+            m->bg = fb_button_new(iname, fname, w, h, 0x702020, NULL);
+            if (p->panel->transparent)
+                gtk_bgbox_set_background(m->bg, BG_INHERIT, 0, 0);
+           m->isbutton = FALSE;
+       }
+       else
+       {
+            m->bg = gtk_toggle_button_new_with_label (label);
+            GtkWidget *image = fb_image_new(iname, fname, w, h-10);
+            gtk_button_set_image(GTK_BUTTON(m->bg), image);
+            gtk_widget_show(m->bg);
+       }
         gtk_container_add(GTK_CONTAINER(p->pwid), m->bg);
-        if (p->panel->transparent)
-            gtk_bgbox_set_background(m->bg, BG_INHERIT, 0, 0);
+
         g_signal_connect (G_OBJECT (m->bg), "button-press-event",
             G_CALLBACK (my_button_pressed), p);
     }
     g_free(fname);
+    g_free(label);
 }
 
 static gboolean

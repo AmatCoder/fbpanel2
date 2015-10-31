@@ -130,7 +130,7 @@ Global {
 Plugin {
     type = space
     config {
-        size = 5
+        size = 3
     }
 }
 
@@ -140,6 +140,7 @@ Plugin {
         IconSize = 22
         #icon = start-here
         icon = logo
+        label = Menu
         term = x-terminal
         systemmenu {
         }
